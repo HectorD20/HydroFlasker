@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stanley Quencher H2.0 FlowState — HYDROFLASKER</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/product.css" />
+</head>
+<body>
+  <div id="app-header"></div>
+
+  <main class="page-transition">
+
+    <!-- ── Product Hero ── -->
+    <section class="product-hero container">
+      <div class="product-hero__grid">
+
+        <!-- Gallery -->
+        <div class="gallery">
+          <div class="gallery__main" id="gallery-main">
+            <img
+              id="gallery-main-img"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRdBRkrv_rF4HX0q_cDsQNp_1N6oiyctEnfrJkc7hfuo9g4gx9QkNKPqXrMv76ZYNw18qooXxEs8IQn3bsy8d-KDOsfWN39UlqPGk6hDYrky6J0X_tnTEU5quzOeURj7oUecDEWxD0dKvA-NHcjrQ6ZiXZU66lMF6Q3i-6aR9T-fwrjQTA2WAuyQTU3a3X6u1ymSddU39UR2MdXAk3mrRPMNJMQJ3nbOqmnv6rW5DgSl8ZtqGksVsWb3Ro9mZc_4aTBN1XAsA2758"
+              alt="Stanley Quencher H2.0"
+              class="gallery__main-img"
+            />
+            <div class="gallery__badge">Más Vendido</div>
+          </div>
+          <div class="gallery__thumbs">
+            <button class="gallery__thumb gallery__thumb--active">
+              <img
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuCjFQvVUOQT6Mx_FGQUmUbBB8nHTPay_EGdbxE1F9EaBqVgHMqYM2GS9lMKJfKkQSk6NEpqIbtFXorrnMZNWYAWmDeUV-fOWT7OORjbpqbxa6xig9DCAM8-ilmm3TUzX_2Tkre5985nhR8uumwQGXkd6M4CG7gcZHQBN4sHhA9EWRwtSvfLw5bt2gBSk3bsizcB0w_WNbQRmSKxeDfgmQpizJMGDosZT18f8LFa7-rUijX_DtDGbiBTXrHXoAUmlRi89uspUR7no"
+                alt="Thumb 1"
+                data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRdBRkrv_rF4HX0q_cDsQNp_1N6oiyctEnfrJkc7hfuo9g4gx9QkNKPqXrMv76ZYNw18qooXxEs8IQn3bsy8d-KDOsfWN39UlqPGk6hDYrky6J0X_tnTEU5quzOeURj7oUecDEWxD0dKvA-NHcjrQ6ZiXZU66lMF6Q3i-6aR9T-fwrjQTA2WAuyQTU3a3X6u1ymSddU39UR2MdXAk3mrRPMNJMQJ3nbOqmnv6rW5DgSl8ZtqGksVsWb3Ro9mZc_4aTBN1XAsA2758"
+              />
+            </button>
+            <button class="gallery__thumb">
+              <span class="material-symbols-outlined" style="color:var(--outline)">photo_camera</span>
+            </button>
+            <button class="gallery__thumb">
+              <span class="material-symbols-outlined" style="color:var(--outline)">360</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Details -->
+        <div class="product-info">
+          <div class="product-info__breadcrumb">
+            <a href="catalog.html" class="product-info__brand-link">Stanley</a>
+            <span>/</span>
+            <span>Hidratación</span>
+          </div>
+
+          <h1 class="product-info__title">Stanley Quencher H2.0 FlowState</h1>
+
+          <div class="product-info__meta">
+            <span class="product-info__price">$45.00</span>
+            <div class="product-info__stars">
+              <span class="material-symbols-outlined icon-fill" style="font-size:18px;color:var(--secondary-container)">star</span>
+              <span class="material-symbols-outlined icon-fill" style="font-size:18px;color:var(--secondary-container)">star</span>
+              <span class="material-symbols-outlined icon-fill" style="font-size:18px;color:var(--secondary-container)">star</span>
+              <span class="material-symbols-outlined icon-fill" style="font-size:18px;color:var(--secondary-container)">star</span>
+              <span class="material-symbols-outlined icon-fill" style="font-size:18px;color:var(--secondary-container)">star_half</span>
+              <a href="#reviews" class="product-info__review-count">(1,284 reseñas)</a>
+            </div>
+          </div>
+
+          <p class="product-info__desc">
+            Construido con acero inoxidable reciclado para beber de manera sostenible, nuestro Quencher H2.0 de 40 oz ofrece máxima hidratación con menos recargas. Viajes de trabajo, entrenamientos en el estudio, viajes de un día o en tu porche delantero: querrás este termo a tu lado.
+          </p>
+
+          <hr class="product-info__divider" />
+
+          <!-- Color -->
+          <div class="product-option">
+            <div class="product-option__header">
+              <span class="product-option__label">Color: <span id="selected-color-label" class="product-option__value">Cuarzo Rosa</span></span>
+            </div>
+            <div class="product-option__row">
+              <button class="color-swatch color-swatch--active" style="background:#f4d9df" data-color="Cuarzo Rosa" aria-label="Cuarzo Rosa"></button>
+              <button class="color-swatch" style="background:#d2dbd5" data-color="Eucalipto" aria-label="Eucalipto"></button>
+              <button class="color-swatch" style="background:#2a2d34" data-color="Negro" aria-label="Negro"></button>
+              <button class="color-swatch" style="background:#e3dfd3" data-color="Crema" aria-label="Crema"></button>
+            </div>
+          </div>
+
+          <!-- Size -->
+          <div class="product-option">
+            <div class="product-option__header">
+              <span class="product-option__label">Tamaño</span>
+              <a href="#" class="product-option__guide">Guía de Tallas</a>
+            </div>
+            <div class="product-option__row">
+              <button class="size-btn" data-size="30">30 oz</button>
+              <button class="size-btn size-btn--active" data-size="40">40 oz
+                <span class="size-btn__check"></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Add to Cart -->
+          <div class="product-cta">
+            <button class="btn-add-to-cart" id="add-to-cart-btn">
+              <span class="material-symbols-outlined" style="font-size:20px">shopping_bag</span>
+              Añadir al Carrito
+            </button>
+            <div class="product-cta__perks">
+              <span class="product-cta__perk">
+                <span class="material-symbols-outlined" style="font-size:18px;color:var(--tertiary-fixed-dim)">local_shipping</span>
+                Envío gratis a partir de $50
+              </span>
+              <span class="product-cta__perk">
+                <span class="material-symbols-outlined" style="font-size:18px;color:var(--tertiary-fixed-dim)">verified</span>
+                Garantía de por vida
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Specs Bento ── -->
+    <section class="specs">
+      <div class="container">
+        <div class="specs__header">
+          <h2 class="specs__title">Diseñado para el Día a Día</h2>
+          <p class="specs__sub">Materiales de primera calidad se unen a un diseño cuidadoso.</p>
+        </div>
+        <div class="specs__grid">
+          <div class="spec-card">
+            <div class="spec-card__icon-wrap">
+              <span class="material-symbols-outlined">ac_unit</span>
+            </div>
+            <h3 class="spec-card__title">Aislamiento Extremo</h3>
+            <p class="spec-card__body">El aislamiento al vacío de doble pared mantiene tus bebidas heladas por hasta 48 horas, o calientes por 7 horas.</p>
+          </div>
+          <div class="spec-card">
+            <div class="spec-card__icon-wrap">
+              <span class="material-symbols-outlined">recycling</span>
+            </div>
+            <h3 class="spec-card__title">Construcción Sostenible</h3>
+            <p class="spec-card__body">Construido con 90% de acero inoxidable 18/8 reciclado, reduciendo el impacto ambiental sin sacrificar la durabilidad.</p>
+          </div>
+          <div class="spec-card">
+            <div class="spec-card__icon-wrap">
+              <span class="material-symbols-outlined">water_drop</span>
+            </div>
+            <h3 class="spec-card__title">Tapa FlowState™</h3>
+            <p class="spec-card__body">La tapa avanzada cuenta con una cubierta giratoria con tres posiciones: una abertura para popote, una boca ancha y una tapa de cobertura total.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="app-footer"></div>
+
+  <script src="../js/app.js"></script>
+  <script src="../js/product.js"></script>
+</body>
+</html>
