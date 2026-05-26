@@ -5,9 +5,9 @@
    ========================================================================== */
 
 define('DB_HOST', 'localhost');                  // Servidor de BD (usualmente localhost en Hostinger)
-define('DB_NAME', 'u123456789_hydroflasker');   // Nombre de la base de datos creada en Hostinger
-define('DB_USER', 'u123456789_hecto');          // Usuario de la base de datos en Hostinger
-define('DB_PASS', 'TuContraseñaSegura123');     // Contraseña del usuario de la base de datos
+define('DB_NAME', 'u968411557_HydroFlasker');   // Nombre de la base de datos (con 'r' al final)
+define('DB_USER', 'u968411557_HectorDev20');          // Usuario de la base de datos en Hostinger
+define('DB_PASS', 'Turistaranxhh2026$');     // Contraseña del usuario de la base de datos
 
 try {
     $pdo = new PDO(
