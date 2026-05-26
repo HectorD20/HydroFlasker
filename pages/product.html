@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stanley Quencher H2.0 FlowState — HYDROFLASKER</title>
+  <title>HYDROFLASKER — Detalle de Producto</title>
   <link rel="stylesheet" href="../css/main.css" />
   <link rel="stylesheet" href="../css/product.css" />
 </head>
@@ -14,48 +14,36 @@
 
     <!-- ── Product Hero ── -->
     <section class="product-hero container">
-      <div class="product-hero__grid">
+      <div class="product-hero__grid" id="product-details-container" style="display:none;">
 
         <!-- Gallery -->
         <div class="gallery">
           <div class="gallery__main" id="gallery-main">
             <img
               id="gallery-main-img"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRdBRkrv_rF4HX0q_cDsQNp_1N6oiyctEnfrJkc7hfuo9g4gx9QkNKPqXrMv76ZYNw18qooXxEs8IQn3bsy8d-KDOsfWN39UlqPGk6hDYrky6J0X_tnTEU5quzOeURj7oUecDEWxD0dKvA-NHcjrQ6ZiXZU66lMF6Q3i-6aR9T-fwrjQTA2WAuyQTU3a3X6u1ymSddU39UR2MdXAk3mrRPMNJMQJ3nbOqmnv6rW5DgSl8ZtqGksVsWb3Ro9mZc_4aTBN1XAsA2758"
-              alt="Stanley Quencher H2.0"
+              src=""
+              alt="Cargando..."
               class="gallery__main-img"
             />
-            <div class="gallery__badge">Más Vendido</div>
+            <div class="gallery__badge" id="product-badge" style="display:none;">Más Vendido</div>
           </div>
-          <div class="gallery__thumbs">
-            <button class="gallery__thumb gallery__thumb--active">
-              <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuCjFQvVUOQT6Mx_FGQUmUbBB8nHTPay_EGdbxE1F9EaBqVgHMqYM2GS9lMKJfKkQSk6NEpqIbtFXorrnMZNWYAWmDeUV-fOWT7OORjbpqbxa6xig9DCAM8-ilmm3TUzX_2Tkre5985nhR8uumwQGXkd6M4CG7gcZHQBN4sHhA9EWRwtSvfLw5bt2gBSk3bsizcB0w_WNbQRmSKxeDfgmQpizJMGDosZT18f8LFa7-rUijX_DtDGbiBTXrHXoAUmlRi89uspUR7no"
-                alt="Thumb 1"
-                data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRdBRkrv_rF4HX0q_cDsQNp_1N6oiyctEnfrJkc7hfuo9g4gx9QkNKPqXrMv76ZYNw18qooXxEs8IQn3bsy8d-KDOsfWN39UlqPGk6hDYrky6J0X_tnTEU5quzOeURj7oUecDEWxD0dKvA-NHcjrQ6ZiXZU66lMF6Q3i-6aR9T-fwrjQTA2WAuyQTU3a3X6u1ymSddU39UR2MdXAk3mrRPMNJMQJ3nbOqmnv6rW5DgSl8ZtqGksVsWb3Ro9mZc_4aTBN1XAsA2758"
-              />
-            </button>
-            <button class="gallery__thumb">
-              <span class="material-symbols-outlined" style="color:var(--outline)">photo_camera</span>
-            </button>
-            <button class="gallery__thumb">
-              <span class="material-symbols-outlined" style="color:var(--outline)">360</span>
-            </button>
+          <div class="gallery__thumbs" id="gallery-thumbs">
+            <!-- Thumbs dinámicos -->
           </div>
         </div>
 
         <!-- Details -->
         <div class="product-info">
           <div class="product-info__breadcrumb">
-            <a href="catalog.html" class="product-info__brand-link">Stanley</a>
+            <a href="catalog.html" class="product-info__brand-link" id="product-brand">Marca</a>
             <span>/</span>
             <span>Hidratación</span>
           </div>
 
-          <h1 class="product-info__title">Stanley Quencher H2.0 FlowState</h1>
+          <h1 class="product-info__title" id="product-title">Cargando producto...</h1>
 
           <div class="product-info__meta">
-            <span class="product-info__price">$45.00</span>
+            <span class="product-info__price" id="product-price">$0.00</span>
             <div class="product-info__stars">
               <span class="material-symbols-outlined icon-fill" style="font-size:18px;color:var(--secondary-container)">star</span>
               <span class="material-symbols-outlined icon-fill" style="font-size:18px;color:var(--secondary-container)">star</span>
@@ -66,8 +54,8 @@
             </div>
           </div>
 
-          <p class="product-info__desc">
-            Construido con acero inoxidable reciclado para beber de manera sostenible, nuestro Quencher H2.0 de 40 oz ofrece máxima hidratación con menos recargas. Viajes de trabajo, entrenamientos en el estudio, viajes de un día o en tu porche delantero: querrás este termo a tu lado.
+          <p class="product-info__desc" id="product-desc">
+            Cargando descripción detallada...
           </p>
 
           <hr class="product-info__divider" />
@@ -75,13 +63,10 @@
           <!-- Color -->
           <div class="product-option">
             <div class="product-option__header">
-              <span class="product-option__label">Color: <span id="selected-color-label" class="product-option__value">Cuarzo Rosa</span></span>
+              <span class="product-option__label">Color: <span id="selected-color-label" class="product-option__value">-</span></span>
             </div>
-            <div class="product-option__row">
-              <button class="color-swatch color-swatch--active" style="background:#f4d9df" data-color="Cuarzo Rosa" aria-label="Cuarzo Rosa"></button>
-              <button class="color-swatch" style="background:#d2dbd5" data-color="Eucalipto" aria-label="Eucalipto"></button>
-              <button class="color-swatch" style="background:#2a2d34" data-color="Negro" aria-label="Negro"></button>
-              <button class="color-swatch" style="background:#e3dfd3" data-color="Crema" aria-label="Crema"></button>
+            <div class="product-option__row" id="product-colors">
+              <!-- Colores dinámicos -->
             </div>
           </div>
 
@@ -91,11 +76,8 @@
               <span class="product-option__label">Tamaño</span>
               <a href="#" class="product-option__guide">Guía de Tallas</a>
             </div>
-            <div class="product-option__row">
-              <button class="size-btn" data-size="30">30 oz</button>
-              <button class="size-btn size-btn--active" data-size="40">40 oz
-                <span class="size-btn__check"></span>
-              </button>
+            <div class="product-option__row" id="product-sizes">
+              <!-- Tamaños dinámicos -->
             </div>
           </div>
 
@@ -118,6 +100,11 @@
           </div>
         </div>
 
+      </div>
+
+      <!-- Loader / Error Message -->
+      <div id="product-loading-status" style="text-align:center; padding: 120px 0; color:var(--on-surface-variant);">
+        <p>Cargando detalles del producto...</p>
       </div>
     </section>
 
