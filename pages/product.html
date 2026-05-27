@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HYDROFLASKER — Detalle de Producto</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/product.css" />
+</head>
+<body>
+  <div id="app-header"></div>
+
+  <main class="page-transition">
+
+    <!-- ── Product Hero ── -->
+    <section class="product-hero container">
+      <div class="product-hero__grid" id="product-details-container" style="display:none;">
+
+        <!-- Gallery -->
+        <div class="gallery">
+          <div class="gallery__main" id="gallery-main">
+            <img
+              id="gallery-main-img"
+              src=""
+              alt="Cargando..."
+              class="gallery__main-img"
+            />
+            <div class="gallery__badge" id="product-badge" style="display:none;">Más Vendido</div>
+          </div>
+          <div class="gallery__thumbs" id="gallery-thumbs">
+            <!-- Thumbs dinámicos -->
+          </div>
+        </div>
+
+        <!-- Details -->
+        <div class="product-info">
+          <div class="product-info__breadcrumb">
+            <a href="catalog.html" class="product-info__brand-link" id="product-brand">Marca</a>
+            <span>/</span>
+            <span>Hidratación</span>
+          </div>
+
+          <h1 class="product-info__title" id="product-title">Cargando producto...</h1>
+
+          <div class="product-info__meta">
+            <span class="product-info__price" id="product-price">$0.00</span>
+            <div class="product-info__stars">
+              <span class="material-symbols-outlined icon-fill" style="font-size:18px;color:var(--secondary-container)">star</span>
+              <span class="material-symbols-outlined icon-fill" style="font-size:18px;color:var(--secondary-container)">star</span>
+              <span class="material-symbols-outlined icon-fill" style="font-size:18px;color:var(--secondary-container)">star</span>
+              <span class="material-symbols-outlined icon-fill" style="font-size:18px;color:var(--secondary-container)">star</span>
+              <span class="material-symbols-outlined icon-fill" style="font-size:18px;color:var(--secondary-container)">star_half</span>
+              <a href="#reviews" class="product-info__review-count">(1,284 reseñas)</a>
+            </div>
+          </div>
+
+          <p class="product-info__desc" id="product-desc">
+            Cargando descripción detallada...
+          </p>
+
+          <hr class="product-info__divider" />
+
+          <!-- Color -->
+          <div class="product-option">
+            <div class="product-option__header">
+              <span class="product-option__label">Color: <span id="selected-color-label" class="product-option__value">-</span></span>
+            </div>
+            <div class="product-option__row" id="product-colors">
+              <!-- Colores dinámicos -->
+            </div>
+          </div>
+
+          <!-- Size -->
+          <div class="product-option">
+            <div class="product-option__header">
+              <span class="product-option__label">Tamaño</span>
+              <a href="#" class="product-option__guide">Guía de Tallas</a>
+            </div>
+            <div class="product-option__row" id="product-sizes">
+              <!-- Tamaños dinámicos -->
+            </div>
+          </div>
+
+          <!-- Add to Cart -->
+          <div class="product-cta">
+            <button class="btn-add-to-cart" id="add-to-cart-btn">
+              <span class="material-symbols-outlined" style="font-size:20px">shopping_bag</span>
+              Añadir al Carrito
+            </button>
+            <div class="product-cta__perks">
+              <span class="product-cta__perk">
+                <span class="material-symbols-outlined" style="font-size:18px;color:var(--tertiary-fixed-dim)">local_shipping</span>
+                Envío gratis a partir de $50
+              </span>
+              <span class="product-cta__perk">
+                <span class="material-symbols-outlined" style="font-size:18px;color:var(--tertiary-fixed-dim)">verified</span>
+                Garantía de por vida
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Loader / Error Message -->
+      <div id="product-loading-status" style="text-align:center; padding: 120px 0; color:var(--on-surface-variant);">
+        <p>Cargando detalles del producto...</p>
+      </div>
+    </section>
+
+    <!-- ── Specs Bento ── -->
+    <section class="specs">
+      <div class="container">
+        <div class="specs__header">
+          <h2 class="specs__title">Diseñado para el Día a Día</h2>
+          <p class="specs__sub">Materiales de primera calidad se unen a un diseño cuidadoso.</p>
+        </div>
+        <div class="specs__grid">
+          <div class="spec-card">
+            <div class="spec-card__icon-wrap">
+              <span class="material-symbols-outlined">ac_unit</span>
+            </div>
+            <h3 class="spec-card__title">Aislamiento Extremo</h3>
+            <p class="spec-card__body">El aislamiento al vacío de doble pared mantiene tus bebidas heladas por hasta 48 horas, o calientes por 7 horas.</p>
+          </div>
+          <div class="spec-card">
+            <div class="spec-card__icon-wrap">
+              <span class="material-symbols-outlined">recycling</span>
+            </div>
+            <h3 class="spec-card__title">Construcción Sostenible</h3>
+            <p class="spec-card__body">Construido con 90% de acero inoxidable 18/8 reciclado, reduciendo el impacto ambiental sin sacrificar la durabilidad.</p>
+          </div>
+          <div class="spec-card">
+            <div class="spec-card__icon-wrap">
+              <span class="material-symbols-outlined">water_drop</span>
+            </div>
+            <h3 class="spec-card__title">Tapa FlowState™</h3>
+            <p class="spec-card__body">La tapa avanzada cuenta con una cubierta giratoria con tres posiciones: una abertura para popote, una boca ancha y una tapa de cobertura total.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="app-footer"></div>
+
+  <script src="../js/app.js"></script>
+  <script src="../js/product.js"></script>
+</body>
+</html>
