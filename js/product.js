@@ -1,81 +1,75 @@
-/* ── Product Page ── */
+/* ── Página del Producto ── */
 
+/* Producto cargado actualmente desde la API */
 let currentProduct = null;
 
+/* ── Carga los detalles del producto desde la URL ── */
 async function loadProductDetails() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const productId = urlParams.get('id');
-
-  if (!productId) {
-    showError("No se especificó ningún producto.");
-    return;
-  }
+  const productId = new URLSearchParams(window.location.search).get('id');
+  if (!productId) { showError('No se especificó ningún producto.'); return; }
 
   try {
     const res = await fetch('../api/products.php');
     if (!res.ok) throw new Error('Error al cargar la información de los productos');
     const products = await res.json();
-    
+
     currentProduct = products.find(p => p.id === productId);
-    if (!currentProduct) {
-      showError("El producto especificado no existe.");
-      return;
-    }
+    if (!currentProduct) { showError('El producto especificado no existe.'); return; }
 
     renderProduct(currentProduct);
   } catch (err) {
     console.error(err);
-    showError("Error al conectar con la base de datos de productos.");
+    showError('Error al conectar con la base de datos de productos.');
   }
 }
 
+/* ── Muestra un mensaje de error en el contenedor de carga ── */
 function showError(message) {
   const statusDiv = document.getElementById('product-loading-status');
   if (statusDiv) {
     statusDiv.innerHTML = `
-      <div style="max-width:400px; margin:0 auto; padding:24px; background:var(--error-container); color:var(--on-error-container); border-radius:12px;">
-        <span class="material-symbols-outlined" style="font-size:48px; margin-bottom:12px;">error</span>
-        <p style="font-weight:600; margin-bottom:16px;">${message}</p>
+      <div style="max-width:400px;margin:0 auto;padding:24px;background:var(--error-container);color:var(--on-error-container);border-radius:12px;">
+        <span class="material-symbols-outlined" style="font-size:48px;margin-bottom:12px;">error</span>
+        <p style="font-weight:600;margin-bottom:16px;">${message}</p>
         <a href="catalog.html" class="btn btn--primary" style="display:inline-flex;">Volver al Catálogo</a>
-      </div>
-    `;
+      </div>`;
   }
 }
 
+/* ── Renderiza todos los detalles del producto en el DOM ── */
 function renderProduct(p) {
-  // Ocultar cargador y mostrar contenedor de detalles
+  // Oculta el indicador de carga y muestra el contenedor de detalles
   document.getElementById('product-loading-status').style.display = 'none';
-  const detailsContainer = document.getElementById('product-details-container');
-  detailsContainer.style.display = 'grid';
+  document.getElementById('product-details-container').style.display = 'grid';
 
-  // Título e información básica
+  // Metadatos básicos del producto
   document.title = `${p.name} — HYDROFLASKER`;
-  document.getElementById('product-title').textContent = p.name;
-  document.getElementById('product-brand').textContent = p.brand.toUpperCase();
-  document.getElementById('product-brand').href = `catalog.html?brand=${p.brand}`;
-  document.getElementById('product-price').textContent = `$${Number(p.price).toFixed(2)}`;
-  document.getElementById('product-desc').textContent = p.description || 'Sin descripción disponible por el momento.';
+  document.getElementById('product-title').textContent     = p.name;
+  document.getElementById('product-brand').textContent     = p.brand.toUpperCase();
+  document.getElementById('product-brand').href            = `catalog.html?brand=${p.brand}`;
+  document.getElementById('product-price').textContent     = `$${Number(p.price).toFixed(2)}`;
+  document.getElementById('product-desc').textContent      = p.description || 'Sin descripción disponible por el momento.';
 
-  // Imagen principal y Badge
+  // Imagen principal de la galería
   const mainImg = document.getElementById('gallery-main-img');
-  mainImg.src = p.img;
-  mainImg.alt = p.name;
+  mainImg.src   = p.img;
+  mainImg.alt   = p.name;
 
-  const badgeObj = p.badges && p.badges.length ? p.badges[0] : null;
+  // Badge de etiqueta (ej. "Más Vendido", "Oferta")
+  const badgeObj   = p.badges && p.badges.length ? p.badges[0] : null;
   const badgeLabel = badgeObj ? badgeObj.label : (p.badge || '');
-  const badgeType = badgeObj ? badgeObj.type : (p.badgeType || '');
-  
-  const badgeEl = document.getElementById('product-badge');
+  const badgeType  = badgeObj ? badgeObj.type  : (p.badgeType || '');
+  const badgeEl    = document.getElementById('product-badge');
   if (badgeLabel) {
-    badgeEl.textContent = badgeLabel;
+    badgeEl.textContent  = badgeLabel;
     badgeEl.style.display = 'block';
-    badgeEl.className = 'gallery__badge';
+    badgeEl.className    = 'gallery__badge';
     if (badgeType === 'sale') badgeEl.classList.add('gallery__badge--sale');
   } else {
     badgeEl.style.display = 'none';
   }
 
-  // Generar miniaturas (Thumbnails) de la galería
+  // Miniaturas de la galería (vista principal + ángulos alternativos)
   const thumbsContainer = document.getElementById('gallery-thumbs');
   thumbsContainer.innerHTML = `
     <button class="gallery__thumb gallery__thumb--active" data-src="${p.img}">
@@ -86,32 +80,29 @@ function renderProduct(p) {
     </button>
     <button class="gallery__thumb" data-src="${p.img}">
       <span class="material-symbols-outlined" style="color:var(--outline)">360</span>
-    </button>
-  `;
+    </button>`;
 
-  // Event listener para las miniaturas
+  // Evento de clic en miniaturas: cambia la imagen principal
   thumbsContainer.querySelectorAll('.gallery__thumb').forEach(thumb => {
     thumb.addEventListener('click', () => {
       thumbsContainer.querySelectorAll('.gallery__thumb').forEach(t => t.classList.remove('gallery__thumb--active'));
       thumb.classList.add('gallery__thumb--active');
-      const newSrc = thumb.dataset.src;
-      if (newSrc) mainImg.src = newSrc;
+      if (thumb.dataset.src) mainImg.src = thumb.dataset.src;
     });
   });
 
-  // Generar opciones de color
+  // Swatches de color con selección activa
   const colorsContainer = document.getElementById('product-colors');
   if (p.colors && p.colors.length) {
-    colorsContainer.innerHTML = p.colors.map((c, index) => {
-      // Usar nombre descriptivo aproximado o el índice si no hay mapeo de nombres de color
-      const colorName = getColorName(c);
-      return `<button class="color-swatch ${index === 0 ? 'color-swatch--active' : ''}" style="background:${c}" data-color="${colorName}" aria-label="${colorName}"></button>`;
+    colorsContainer.innerHTML = p.colors.map((c, i) => {
+      const name = getColorName(c);
+      return `<button class="color-swatch ${i === 0 ? 'color-swatch--active' : ''}" style="background:${c}" data-color="${name}" aria-label="${name}"></button>`;
     }).join('');
 
-    // Seleccionar color inicial
+    // Establece el color activo inicial
     document.getElementById('selected-color-label').textContent = getColorName(p.colors[0]);
 
-    // Event listener para swatches de color
+    // Evento de selección de color: actualiza la etiqueta del color activo
     colorsContainer.querySelectorAll('.color-swatch').forEach(swatch => {
       swatch.addEventListener('click', () => {
         colorsContainer.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('color-swatch--active'));
@@ -120,21 +111,20 @@ function renderProduct(p) {
       });
     });
   } else {
-    // Si no hay colores, mostrar variante principal o vacío
-    document.getElementById('selected-color-label').textContent = p.variant || "Único";
+    // Sin colores definidos: muestra un swatch genérico con la variante
+    document.getElementById('selected-color-label').textContent = p.variant || 'Único';
     colorsContainer.innerHTML = `<button class="color-swatch color-swatch--active" style="background:var(--primary)" data-color="${p.variant || 'Único'}"></button>`;
   }
 
-  // Generar tamaños
+  // Botones de tamaño (oz); el último tamaño se marca como activo por defecto
   const sizesContainer = document.getElementById('product-sizes');
-  const sizes = p.sizes || [30, 40];
-  sizesContainer.innerHTML = sizes.map((sz, index) => `
-    <button class="size-btn ${index === sizes.length - 1 ? 'size-btn--active' : ''}" data-size="${sz}">
-      ${sz} oz ${index === sizes.length - 1 ? '<span class="size-btn__check"></span>' : ''}
-    </button>
-  `).join('');
+  const sizes          = p.sizes || [30, 40];
+  sizesContainer.innerHTML = sizes.map((sz, i) => `
+    <button class="size-btn ${i === sizes.length - 1 ? 'size-btn--active' : ''}" data-size="${sz}">
+      ${sz} oz ${i === sizes.length - 1 ? '<span class="size-btn__check"></span>' : ''}
+    </button>`).join('');
 
-  // Event listener para los botones de tallas
+  // Evento de selección de tamaño: actualiza el botón activo y el checkmark
   sizesContainer.querySelectorAll('.size-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       sizesContainer.querySelectorAll('.size-btn').forEach(b => {
@@ -147,9 +137,9 @@ function renderProduct(p) {
   });
 }
 
-// Función auxiliar para retornar nombres descriptivos de color basados en hex
+/* ── Devuelve el nombre descriptivo de un color en español dado su hex ── */
 function getColorName(hex) {
-  const colorsMap = {
+  const map = {
     '#f4d9df': 'Cuarzo Rosa',
     '#d2dbd5': 'Eucalipto',
     '#2a2d34': 'Negro',
@@ -159,21 +149,20 @@ function getColorName(hex) {
     '#f5f5f5': 'Blanco Ártico',
     '#fe5e1e': 'Naranja Fuego',
     '#ff5722': 'Naranja Fuego',
-    '#4cd7f6': 'Pacífico'
+    '#4cd7f6': 'Pacífico',
   };
-  return colorsMap[hex.toLowerCase()] || 'Personalizado';
+  return map[hex.toLowerCase()] || 'Personalizado';
 }
 
-/* Add to Cart */
+/* ── Agrega el producto al carrito con el color y tamaño seleccionados ── */
 document.getElementById('add-to-cart-btn').addEventListener('click', () => {
   if (!currentProduct) return;
-
   const color = document.getElementById('selected-color-label').textContent;
   const size  = document.querySelector('.size-btn--active')?.dataset.size || '40';
-  
+
   Cart.addItem({
     id:      `${currentProduct.id}-${size}-${color.replace(/\s+/g, '-').toLowerCase()}`,
-    name:    `${currentProduct.name}`,
+    name:    currentProduct.name,
     variant: `${color} — ${size} oz`,
     price:   Number(currentProduct.price),
     img:     document.getElementById('gallery-main-img').src,
@@ -181,7 +170,7 @@ document.getElementById('add-to-cart-btn').addEventListener('click', () => {
   showToast('Producto agregado al carrito');
 });
 
-/* Init */
+/* ── Inicialización ── */
 renderHeader('product');
 renderFooter();
 loadProductDetails();

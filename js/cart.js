@@ -1,11 +1,14 @@
-/* ── Cart Page ── */
+/* ── Página del Carrito ── */
 
-const SHIPPING = 99.00;
-const PROMO_CODES = { 'HYDRO10': .10, 'AVENTURA': .15 };
-let discount = 0;
+/* Costo de envío fijo y códigos de promoción disponibles */
+const SHIPPING     = 99.00;
+const PROMO_CODES  = { 'HYDRO10': .10, 'AVENTURA': .15 };
+let   discount     = 0;
 
-function formatPrice(n) { return '$' + n.toFixed(2); }
+/* Formatea un número como precio en MXN con dos decimales */
+const formatPrice = n => '$' + n.toFixed(2);
 
+/* ── Genera el HTML de un artículo del carrito ── */
 function itemHTML(item) {
   return `
     <div class="cart-item" data-id="${item.id}" style="animation-delay:${Math.random() * .15}s">
@@ -27,6 +30,7 @@ function itemHTML(item) {
           <div class="cart-item__price">${formatPrice(item.price)}</div>
         </div>
         <div class="cart-item__footer">
+          <!-- Controles de cantidad: disminuir / valor / aumentar -->
           <div class="cart-item__qty">
             <button class="cart-item__qty-btn" data-action="dec" data-id="${item.id}" aria-label="Disminuir">
               <span class="material-symbols-outlined" style="font-size:20px">remove</span>
@@ -45,139 +49,130 @@ function itemHTML(item) {
     </div>`;
 }
 
+/* ── Recalcula y actualiza el resumen del pedido ── */
 function updateSummary() {
-  const items = Cart.getItems();
-  const subtotal = Cart.total();
-  const shipping = items.length > 0 ? SHIPPING : 0;
+  const items       = Cart.getItems();
+  const subtotal    = Cart.total();
+  const shipping    = items.length > 0 ? SHIPPING : 0;
   const discountAmt = subtotal * discount;
-  const total = subtotal - discountAmt + shipping;
-  const count = Cart.count();
+  const total       = subtotal - discountAmt + shipping;
+  const count       = Cart.count();
 
+  // Actualiza cada celda del resumen con los valores calculados
   document.getElementById('cart-count-text').textContent =
     `${count} artículo${count !== 1 ? 's' : ''} listo${count !== 1 ? 's' : ''} para tu próxima aventura.`;
-  document.getElementById('item-count-label').textContent = count;
-  document.getElementById('subtotal-label').textContent = formatPrice(subtotal);
-  document.getElementById('shipping-label').textContent = items.length > 0 ? formatPrice(shipping) : '$0.00';
-  document.getElementById('total-label').textContent = formatPrice(total);
+  document.getElementById('item-count-label').textContent  = count;
+  document.getElementById('subtotal-label').textContent    = formatPrice(subtotal);
+  document.getElementById('shipping-label').textContent    = items.length > 0 ? formatPrice(shipping) : '$0.00';
+  document.getElementById('total-label').textContent       = formatPrice(total);
 }
 
+/* ── Renderiza todos los artículos o muestra el estado vacío ── */
 function renderCart() {
-  const items = Cart.getItems();
+  const items     = Cart.getItems();
   const container = document.getElementById('cart-items-container');
-  const empty = document.getElementById('cart-empty');
-  const layout = document.querySelector('.cart-layout');
+  const empty     = document.getElementById('cart-empty');
+  const layout    = document.querySelector('.cart-layout');
 
   if (items.length === 0) {
-    container.innerHTML = '';
-    empty.style.display = 'flex';
-    layout.style.display = 'none';
+    // Carrito vacío: oculta el layout y muestra el mensaje de carrito vacío
+    container.innerHTML     = '';
+    empty.style.display     = 'flex';
+    layout.style.display    = 'none';
   } else {
-    empty.style.display = 'none';
-    layout.style.display = '';
-    container.innerHTML = items.map(itemHTML).join('');
+    // Carrito con artículos: oculta el mensaje vacío y renderiza las tarjetas
+    empty.style.display     = 'none';
+    layout.style.display    = '';
+    container.innerHTML     = items.map(itemHTML).join('');
   }
   updateSummary();
 }
 
-/* Item actions */
+/* ── Maneja las acciones sobre los artículos (incrementar, decrementar, eliminar) ── */
 document.getElementById('cart-items-container').addEventListener('click', e => {
   const btn = e.target.closest('[data-action]');
   if (!btn) return;
   const { action, id } = btn.dataset;
-
-  if (action === 'inc') Cart.updateQty(id, 1);
-  if (action === 'dec') Cart.updateQty(id, -1);
+  if (action === 'inc')    Cart.updateQty(id, 1);
+  if (action === 'dec')    Cart.updateQty(id, -1);
   if (action === 'remove') Cart.removeItem(id);
-
   renderCart();
 });
 
-/* Promo code */
+/* ── Valida y aplica un código de descuento al total ── */
 document.getElementById('apply-promo-btn').addEventListener('click', () => {
-  const code = document.getElementById('promo-code').value.trim().toUpperCase();
+  const code  = document.getElementById('promo-code').value.trim().toUpperCase();
   const msgEl = document.getElementById('promo-msg');
-  const rate = PROMO_CODES[code];
+  const rate  = PROMO_CODES[code];
 
   if (rate) {
     discount = rate;
     msgEl.textContent = `✓ Código "${code}" aplicado — ${rate * 100}% de descuento`;
-    msgEl.className = 'order-summary__promo-msg order-summary__promo-msg--ok';
+    msgEl.className   = 'order-summary__promo-msg order-summary__promo-msg--ok';
   } else {
     msgEl.textContent = 'Código inválido. Intenta HYDRO10 o AVENTURA.';
-    msgEl.className = 'order-summary__promo-msg order-summary__promo-msg--error';
+    msgEl.className   = 'order-summary__promo-msg order-summary__promo-msg--error';
   }
   updateSummary();
 });
 
-/* Checkout */
+/* ── Procesa la compra: valida sesión, datos de envío y llama al backend ── */
 document.getElementById('checkout-btn').addEventListener('click', async () => {
-  if (Cart.count() === 0) {
-    showToast('Tu carrito está vacío.');
-    return;
-  }
+  // Verificar que haya artículos en el carrito
+  if (Cart.count() === 0) { showToast('Tu carrito está vacío.'); return; }
 
+  // Verificar que el usuario tenga sesión iniciada
   const user = Auth.getUser();
   if (!user) {
-    // Alerta explícita para indicar que debe iniciar sesión antes de continuar
     alert('Debes iniciar sesión para poder realizar una compra. Por favor, inicia sesión o crea una cuenta en la ventana que aparecerá a continuación.');
     openAuthModal('login');
     return;
   }
 
-  // Validar datos de envío
+  // Leer y validar los campos del formulario de envío
   const fullname = document.getElementById('shipping-fullname').value.trim();
   const address  = document.getElementById('shipping-address').value.trim();
   const city     = document.getElementById('shipping-city').value.trim();
   const zip      = document.getElementById('shipping-zip').value.trim();
-
   if (!fullname || !address || !city || !zip) {
     alert('Por favor, completa todos los datos de envío antes de proceder al pago.');
     return;
   }
 
+  const btn = document.getElementById('checkout-btn');
   try {
-    const btn = document.getElementById('checkout-btn');
-    btn.disabled = true;
+    // Deshabilita el botón durante el proceso para evitar doble envío
+    btn.disabled    = true;
     btn.textContent = 'Procesando compra...';
 
-    const res = await fetch('../api/checkout.php', {
+    const res  = await fetch('../api/checkout.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        usuario_id: user.id,
-        items: Cart.getItems(),
-        shipping: { fullname, address, city, zip }
-      })
+      body: JSON.stringify({ usuario_id: user.id, items: Cart.getItems(), shipping: { fullname, address, city, zip } }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Error al procesar la compra.');
 
-    // Limpiar carrito en localStorage y limpiar los campos de envío
+    // Limpia el carrito y los campos de envío tras una compra exitosa
     localStorage.removeItem('hf_cart');
-    document.getElementById('shipping-fullname').value = '';
-    document.getElementById('shipping-address').value = '';
-    document.getElementById('shipping-city').value = '';
-    document.getElementById('shipping-zip').value = '';
+    ['shipping-fullname', 'shipping-address', 'shipping-city', 'shipping-zip']
+      .forEach(id => { document.getElementById(id).value = ''; });
 
     Cart.emit('change');
     renderCart();
-
     showToast('¡Compra realizada con éxito! Revisa "Mis Compras".');
   } catch (err) {
     alert(err.message);
   } finally {
-    const btn = document.getElementById('checkout-btn');
-    if (btn) {
-      btn.disabled = false;
-      btn.textContent = 'Proceder al Pago';
-    }
+    // Restaura el botón sin importar si hubo error
+    if (btn) { btn.disabled = false; btn.textContent = 'Proceder al Pago'; }
   }
 });
 
-/* Cart changes from other tabs */
+/* Vuelve a renderizar cuando el carrito cambia desde otra pestaña */
 Cart.on('change', renderCart);
 
-/* Init */
+/* ── Inicialización ── */
 renderHeader('cart');
 renderFooter();
 renderCart();
