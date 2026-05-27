@@ -1,13 +1,12 @@
 <?php
 /* ==========================================================================
    HYDROFLASKER — Conexión a Base de Datos (PDO)
-   Configura estos valores con las credenciales de tu base de datos en Hostinger.
    ========================================================================== */
 
-define('DB_HOST', 'localhost');                  // Servidor de BD (usualmente localhost en Hostinger)
-define('DB_NAME', 'u968411557_HydroFlasker');   // Nombre de la base de datos (con 'r' al final)
-define('DB_USER', 'u968411557_HectorDev20');          // Usuario de la base de datos en Hostinger
-define('DB_PASS', 'Turistaranxhh2026$');     // Contraseña del usuario de la base de datos
+define('DB_HOST', 'localhost');                  
+define('DB_NAME', 'u968411557_HydroFlasker');   
+define('DB_USER', 'u968411557_HectorDev20'); 
+define('DB_PASS', 'Turistaranxhh2026$');     
 
 try {
     $pdo = new PDO(
@@ -21,7 +20,7 @@ try {
         ]
     );
 } catch (PDOException $e) {
-    // Si la conexión falla, retornamos error en formato JSON para el frontend
+
     header('Content-Type: application/json; charset=utf-8');
     http_response_code(500);
     echo json_encode([
