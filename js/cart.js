@@ -1,6 +1,6 @@
 /* ── Cart Page ── */
 
-const SHIPPING = 5.00;
+const SHIPPING = 99.00;
 const PROMO_CODES = { 'HYDRO10': .10, 'AVENTURA': .15 };
 let discount = 0;
 
@@ -8,7 +8,7 @@ function formatPrice(n) { return '$' + n.toFixed(2); }
 
 function itemHTML(item) {
   return `
-    <div class="cart-item" data-id="${item.id}" style="animation-delay:${Math.random()*.15}s">
+    <div class="cart-item" data-id="${item.id}" style="animation-delay:${Math.random() * .15}s">
       <div class="cart-item__img-wrap">
         <img src="${item.img || 'https://lh3.googleusercontent.com/aida-public/AB6AXuB0fdHdhpueYGWSKk3cGulsWZGMjt2-LUtHmNUORuX_eO31d3t4tZsBsQIsULIt5gHe-K_aAmH5wq8jP8xBNKU3T6AukrRos5b4D_ZSjyfm2QZCBitFvt2ma6g_n8Gpo_On1bpDute57G2VLqoBPBd6gmDExAUojOKLkb6L1cJb_RPiU6wHagQmyj8b1uFHipXh2vRRWo2e-BIn39P3Dk2NIt1_R_BG2HTLtr3VSf34dnS0t9WDs1HTSJwsW2Tzc3jGSlw0DACsECA'}"
              alt="${item.name}" class="cart-item__img" />
@@ -46,35 +46,35 @@ function itemHTML(item) {
 }
 
 function updateSummary() {
-  const items    = Cart.getItems();
+  const items = Cart.getItems();
   const subtotal = Cart.total();
   const shipping = items.length > 0 ? SHIPPING : 0;
   const discountAmt = subtotal * discount;
-  const total    = subtotal - discountAmt + shipping;
-  const count    = Cart.count();
+  const total = subtotal - discountAmt + shipping;
+  const count = Cart.count();
 
   document.getElementById('cart-count-text').textContent =
     `${count} artículo${count !== 1 ? 's' : ''} listo${count !== 1 ? 's' : ''} para tu próxima aventura.`;
   document.getElementById('item-count-label').textContent = count;
-  document.getElementById('subtotal-label').textContent   = formatPrice(subtotal);
-  document.getElementById('shipping-label').textContent   = items.length > 0 ? formatPrice(shipping) : '$0.00';
-  document.getElementById('total-label').textContent      = formatPrice(total);
+  document.getElementById('subtotal-label').textContent = formatPrice(subtotal);
+  document.getElementById('shipping-label').textContent = items.length > 0 ? formatPrice(shipping) : '$0.00';
+  document.getElementById('total-label').textContent = formatPrice(total);
 }
 
 function renderCart() {
-  const items     = Cart.getItems();
+  const items = Cart.getItems();
   const container = document.getElementById('cart-items-container');
-  const empty     = document.getElementById('cart-empty');
-  const layout    = document.querySelector('.cart-layout');
+  const empty = document.getElementById('cart-empty');
+  const layout = document.querySelector('.cart-layout');
 
   if (items.length === 0) {
     container.innerHTML = '';
-    empty.style.display  = 'flex';
+    empty.style.display = 'flex';
     layout.style.display = 'none';
   } else {
-    empty.style.display  = 'none';
+    empty.style.display = 'none';
     layout.style.display = '';
-    container.innerHTML  = items.map(itemHTML).join('');
+    container.innerHTML = items.map(itemHTML).join('');
   }
   updateSummary();
 }
@@ -85,8 +85,8 @@ document.getElementById('cart-items-container').addEventListener('click', e => {
   if (!btn) return;
   const { action, id } = btn.dataset;
 
-  if (action === 'inc')    Cart.updateQty(id, 1);
-  if (action === 'dec')    Cart.updateQty(id, -1);
+  if (action === 'inc') Cart.updateQty(id, 1);
+  if (action === 'dec') Cart.updateQty(id, -1);
   if (action === 'remove') Cart.removeItem(id);
 
   renderCart();
@@ -94,28 +94,84 @@ document.getElementById('cart-items-container').addEventListener('click', e => {
 
 /* Promo code */
 document.getElementById('apply-promo-btn').addEventListener('click', () => {
-  const code    = document.getElementById('promo-code').value.trim().toUpperCase();
-  const msgEl   = document.getElementById('promo-msg');
-  const rate    = PROMO_CODES[code];
+  const code = document.getElementById('promo-code').value.trim().toUpperCase();
+  const msgEl = document.getElementById('promo-msg');
+  const rate = PROMO_CODES[code];
 
   if (rate) {
     discount = rate;
-    msgEl.textContent  = `✓ Código "${code}" aplicado — ${rate * 100}% de descuento`;
-    msgEl.className    = 'order-summary__promo-msg order-summary__promo-msg--ok';
+    msgEl.textContent = `✓ Código "${code}" aplicado — ${rate * 100}% de descuento`;
+    msgEl.className = 'order-summary__promo-msg order-summary__promo-msg--ok';
   } else {
-    msgEl.textContent  = 'Código inválido. Intenta HYDRO10 o AVENTURA.';
-    msgEl.className    = 'order-summary__promo-msg order-summary__promo-msg--error';
+    msgEl.textContent = 'Código inválido. Intenta HYDRO10 o AVENTURA.';
+    msgEl.className = 'order-summary__promo-msg order-summary__promo-msg--error';
   }
   updateSummary();
 });
 
 /* Checkout */
-document.getElementById('checkout-btn').addEventListener('click', () => {
+document.getElementById('checkout-btn').addEventListener('click', async () => {
   if (Cart.count() === 0) {
     showToast('Tu carrito está vacío.');
     return;
   }
-  showToast('¡Redirigiendo al pago seguro…!');
+
+  const user = Auth.getUser();
+  if (!user) {
+    // Alerta explícita para indicar que debe iniciar sesión antes de continuar
+    alert('Debes iniciar sesión para poder realizar una compra. Por favor, inicia sesión o crea una cuenta en la ventana que aparecerá a continuación.');
+    openAuthModal('login');
+    return;
+  }
+
+  // Validar datos de envío
+  const fullname = document.getElementById('shipping-fullname').value.trim();
+  const address  = document.getElementById('shipping-address').value.trim();
+  const city     = document.getElementById('shipping-city').value.trim();
+  const zip      = document.getElementById('shipping-zip').value.trim();
+
+  if (!fullname || !address || !city || !zip) {
+    alert('Por favor, completa todos los datos de envío antes de proceder al pago.');
+    return;
+  }
+
+  try {
+    const btn = document.getElementById('checkout-btn');
+    btn.disabled = true;
+    btn.textContent = 'Procesando compra...';
+
+    const res = await fetch('../api/checkout.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        usuario_id: user.id,
+        items: Cart.getItems(),
+        shipping: { fullname, address, city, zip }
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Error al procesar la compra.');
+
+    // Limpiar carrito en localStorage y limpiar los campos de envío
+    localStorage.removeItem('hf_cart');
+    document.getElementById('shipping-fullname').value = '';
+    document.getElementById('shipping-address').value = '';
+    document.getElementById('shipping-city').value = '';
+    document.getElementById('shipping-zip').value = '';
+
+    Cart.emit('change');
+    renderCart();
+
+    showToast('¡Compra realizada con éxito! Revisa "Mis Compras".');
+  } catch (err) {
+    alert(err.message);
+  } finally {
+    const btn = document.getElementById('checkout-btn');
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = 'Proceder al Pago';
+    }
+  }
 });
 
 /* Cart changes from other tabs */
@@ -125,22 +181,3 @@ Cart.on('change', renderCart);
 renderHeader('cart');
 renderFooter();
 renderCart();
-
-/* Demo: add default items if cart is empty */
-if (Cart.count() === 0) {
-  Cart.addItem({
-    id: 'hf-wide-32',
-    name: 'Boca Ancha de 32 oz',
-    variant: 'Color: Azul Pacífico',
-    price: 44.95,
-    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAb1X7l7fvY6B80QPIHhuSwuxendsyq26z_RXegSyEcntlWzpuYGkBT9kpb51yEzaSs2Q2mVC7y6sPji06FdOq5sKSw3DBjVlgVHeugJ7qgCT0VughVZ-J0BiHMc6JQBOfW0I8H_GfyBPYNg6FbfFmyY49plIV1JVCYTE7LoJrGqz2b939RnaYM02FpFEK-TEf55xpnpfn1eQD0xBT880G2cMvBxxNIPexfnHuv6dGSnhU1EXjY98u9tnyivRwSb4nZ3N5uliJXZ4E',
-  });
-  Cart.addItem({
-    id: 'sport-cap',
-    name: 'Tapa Deportiva Aislada',
-    variant: 'Color: Negro',
-    price: 12.95,
-    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA6cbKHvrzWs3pbNhYfgD-pEIegQTJd9bIKuu19wVJyX8tIWfoxj4JNrG7x0l9ropTKYQDonrG_jgms-C18Wp7kFrJ0bePR6M_6nnjmXvpP7Ym9Hh7exnQ-OpLUHS8diSACh96unGd69NBWqnoC1s0fh6F2wW77RZeYQ39nr549V1f5x-3optlSdEISgJQEWyz5XuwdmSRjNXe_zsI5iZlIx3RM4ozHNR5Mxe57GgnSygX_spFoVHpyzChB35Q7wY_Oju1cUO2wHDU',
-  });
-  renderCart();
-}

@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tu Carrito — HYDROFLASKER</title>
-  <link rel="stylesheet" href="../css/main.css" />
-  <link rel="stylesheet" href="../css/cart.css" />
+  <link rel="stylesheet" href="../css/main.css?v=1.4" />
+  <link rel="stylesheet" href="../css/cart.css?v=1.4" />
 </head>
+
 <body>
   <div id="app-header"></div>
 
@@ -45,12 +47,7 @@
               Tarjeta de Regalo o Código de Descuento
             </label>
             <div class="order-summary__promo-row">
-              <input
-                type="text"
-                id="promo-code"
-                placeholder="Ingresar código"
-                class="order-summary__promo-input"
-              />
+              <input type="text" id="promo-code" placeholder="Ingresar código" class="order-summary__promo-input" />
               <button class="order-summary__promo-btn" id="apply-promo-btn">Aplicar</button>
             </div>
             <p class="order-summary__promo-msg" id="promo-msg"></p>
@@ -65,7 +62,8 @@
             <div class="order-summary__row">
               <span>
                 Envío
-                <span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle;cursor:help" title="Tarifa de envío estándar">info</span>
+                <span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle;cursor:help"
+                  title="Tarifa de envío estándar">info</span>
               </span>
               <span id="shipping-label">$5.00</span>
             </div>
@@ -79,8 +77,35 @@
           <div class="order-summary__total">
             <span>Total</span>
             <div style="text-align:right">
-              <small class="order-summary__currency">USD</small>
+              <small class="order-summary__currency">MXN</small>
               <div class="order-summary__total-amount" id="total-label">$0.00</div>
+            </div>
+          </div>
+
+          <!-- Datos de Envío (Apariencia Profesional) -->
+          <div class="order-summary__shipping-info"
+            style="margin-block: 20px; border-top: 1px solid rgba(198, 198, 205, 0.3); padding-top: 16px;">
+            <p
+              style="font-size: 13px; font-weight: 700; color: var(--on-surface); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+              <span class="material-symbols-outlined"
+                style="font-size: 18px; color: var(--secondary);">local_shipping</span>
+              Datos de Envío
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <input type="text" id="shipping-fullname" placeholder="Nombre completo del destinatario"
+                style="width: 100%; padding: 8px 12px; font-size: 13px; border: 1px solid var(--outline-variant); border-radius: var(--radius); background: var(--surface-container-lowest); color: var(--on-surface); outline: none; transition: border-color .2s;"
+                required />
+              <input type="text" id="shipping-address" placeholder="Calle, número e interior"
+                style="width: 100%; padding: 8px 12px; font-size: 13px; border: 1px solid var(--outline-variant); border-radius: var(--radius); background: var(--surface-container-lowest); color: var(--on-surface); outline: none; transition: border-color .2s;"
+                required />
+              <div style="display: flex; gap: 8px;">
+                <input type="text" id="shipping-city" placeholder="Ciudad"
+                  style="width: 60%; padding: 8px 12px; font-size: 13px; border: 1px solid var(--outline-variant); border-radius: var(--radius); background: var(--surface-container-lowest); color: var(--on-surface); outline: none; transition: border-color .2s;"
+                  required />
+                <input type="text" id="shipping-zip" placeholder="C. Postal"
+                  style="width: 40%; padding: 8px 12px; font-size: 13px; border: 1px solid var(--outline-variant); border-radius: var(--radius); background: var(--surface-container-lowest); color: var(--on-surface); outline: none; transition: border-color .2s;"
+                  required />
+              </div>
             </div>
           </div>
 
@@ -113,7 +138,8 @@
 
   <div id="app-footer"></div>
 
-  <script src="../js/app.js"></script>
-  <script src="../js/cart.js"></script>
+  <script src="../js/app.js?v=1.4"></script>
+  <script src="../js/cart.js?v=1.4"></script>
 </body>
+
 </html>
